@@ -6,20 +6,31 @@ import RecipeCategory from './RecipeCategory'
 import LikeButton from '../components/LikeButton'
 
 export const recipeItemShape = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,
   vegan: PropTypes.bool,
   vegetarian: PropTypes.bool,
   pescatarian: PropTypes.bool,
+  liked: PropTypes.bool
 })
 
 const PLACEHOLDER = 'http://via.placeholder.com/500x180?text=No%20Image'
 
 class RecipeItem extends PureComponent {
-  static propTypes = recipeItemShape.isRequired
+  static propTypes = {
+    ...recipeItemShape.isRequired,
+    updateRecipe: PropTypes.func.isRequired
+  }
+
+  toggleLike = () => {
+    console.log('Calling toggleLike inside RecipeItem!')
+    const { updateRecipe, _id, liked } = this.props
+    updateRecipe(_id, { liked: !liked })
+  }
 
   render() {
-    const { title, summary, vegan, vegetarian, pescatarian, photo } = this.props
+    const { title, summary, vegan, vegetarian, pescatarian, photo, liked } = this.props
     const categories = { vegan, vegetarian, pescatarian }
 
     return(
@@ -38,7 +49,10 @@ class RecipeItem extends PureComponent {
           <p>{ summary }</p>
         </div>
         <footer>
-          <LikeButton />
+          <LikeButton
+            onClick={this.toggleLike}
+            liked={liked}
+          />
         </footer>
       </article>
     )

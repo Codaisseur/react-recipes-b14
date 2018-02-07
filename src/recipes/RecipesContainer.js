@@ -6,13 +6,15 @@ import RecipeItem, { recipeItemShape } from './RecipeItem'
 
 class RecipesContainer extends PureComponent {
   static propTypes = {
-    recipes: PropTypes.arrayOf(recipeItemShape).isRequired
+    recipes: PropTypes.arrayOf(recipeItemShape).isRequired,
+    updateRecipe: PropTypes.func.isRequired
   }
 
   renderRecipe(recipe, index) {
     return (
       <RecipeItem
         key={index}
+        updateRecipe={this.props.updateRecipe}
         {...recipe}
       />
     )
@@ -26,7 +28,7 @@ class RecipesContainer extends PureComponent {
         </header>
 
         <main>
-          { this.props.recipes.map(this.renderRecipe) }
+          { this.props.recipes.map(this.renderRecipe.bind(this)) }
         </main>
       </div>
     )
