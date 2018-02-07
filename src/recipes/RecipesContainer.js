@@ -1,7 +1,8 @@
 // src/recipes/RecipesContainer.js
 import React, { PureComponent } from 'react'
-import Title from '../components/Title'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import Title from '../components/Title'
 import RecipeItem, { recipeItemShape } from './RecipeItem'
 
 class RecipesContainer extends PureComponent {
@@ -35,4 +36,10 @@ class RecipesContainer extends PureComponent {
   }
 }
 
-export default RecipesContainer
+const mapStateToProps = (stateFromTheStore) => {
+  return {
+    recipes: stateFromTheStore.recipes
+  }
+}
+
+export default connect(mapStateToProps)(RecipesContainer)
